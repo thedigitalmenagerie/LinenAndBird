@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LinenAndBird.Models
 {
     public class Bird
     {
+        public Guid Id { get; set; }
         public BirdType Type { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }

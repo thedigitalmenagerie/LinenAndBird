@@ -1,4 +1,5 @@
 ﻿using LinenAndBird.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,18 +11,21 @@ namespace LinenAndBird.DataAccess
         {
             new Hat
             {
+                Id = Guid.NewGuid(),
                 Color = "Blue",
                 Designer = "Charlie",
                 Style = HatStyle.OpenBack
             },
             new Hat
             {
+                Id = Guid.NewGuid(),
                 Color = "Black",
                 Designer = "Nathan",
                 Style = HatStyle.WideBrim
             },
             new Hat
             {
+                Id = Guid.NewGuid(),
                 Color = "Magenta",
                 Designer = "Charlie",
                 Style = HatStyle.Normal
@@ -35,12 +39,18 @@ namespace LinenAndBird.DataAccess
 
         internal void Add(Hat newHat)
         {
+            newHat.Id = Guid.NewGuid();
             _hats.Add(newHat);
         }
 
         internal IEnumerable<Hat> GetByStyle(HatStyle style)
         {
             return _hats.Where(hat => hat.Style == style);
+        }
+
+        internal Hat GetById(Guid hatId)
+        {
+            return _hats.FirstOrDefault(hat => hat.Id == hatId);
         }
     }
 }

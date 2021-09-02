@@ -1,6 +1,7 @@
 ﻿using LinenAndBird.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinenAndBird.DataAccess
 {
@@ -10,6 +11,7 @@ namespace LinenAndBird.DataAccess
         {
             new Bird
             {
+                Id = Guid.NewGuid(),
                 Name = "Jimmy",
                 Color = "Red",
                 Size = "Small",
@@ -17,6 +19,8 @@ namespace LinenAndBird.DataAccess
                 Accessories = new List<string> { "Beanie", "Gold Wing Tips" }
             }
         };
+
+
         internal IEnumerable<Bird> GetAll()
         {
             return _birds;
@@ -24,7 +28,14 @@ namespace LinenAndBird.DataAccess
 
         internal void Add(Bird newBird)
         {
+            newBird.Id = Guid.NewGuid();
             _birds.Add(newBird);
+        }
+
+        internal Bird GetById(Guid birdId)
+        {
+            return _birds.FirstOrDefault(bird => bird.Id == birdId);
         }
     }
 }
+
