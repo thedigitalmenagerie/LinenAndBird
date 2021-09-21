@@ -8,10 +8,12 @@ namespace LinenAndBird.DataAccess
 {
     public class OrdersRepository
     {
-        List<Order> _orders = new List<Order>();
+        static List<Order> _orders = new List<Order>();
+
         internal void Add(Order order)
         {
             order.Id = Guid.NewGuid();
+
             _orders.Add(order);
         }
     }

@@ -1,46 +1,47 @@
-﻿using LinenAndBird.Models;
+﻿
+using LinenAndBird.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinenAndBird.DataAccess
 {
     public class HatRepository
     {
         static List<Hat> _hats = new List<Hat>
+            {
+                new Hat
+                {
+                    Id = Guid.NewGuid(),
+                    Color = "Blue",
+                    Designer = "Charlie",
+                    Style = HatStyle.OpenBack
+                },
+                new Hat
+                {
+                    Id = Guid.NewGuid(),
+                    Color = "Black",
+                    Designer = "Nathan",
+                    Style = HatStyle.WideBrim
+                },
+                new Hat
+                {
+                    Id = Guid.NewGuid(),
+                    Color = "Magenta",
+                    Designer = "Charlie",
+                    Style = HatStyle.Normal
+                }
+            };
+
+        internal Hat GetById(Guid hatId)
         {
-            new Hat
-            {
-                Id = Guid.NewGuid(),
-                Color = "Blue",
-                Designer = "Charlie",
-                Style = HatStyle.OpenBack
-            },
-            new Hat
-            {
-                Id = Guid.NewGuid(),
-                Color = "Black",
-                Designer = "Nathan",
-                Style = HatStyle.WideBrim
-            },
-            new Hat
-            {
-                Id = Guid.NewGuid(),
-                Color = "Magenta",
-                Designer = "Charlie",
-                Style = HatStyle.Normal
-            },
-        };
+            return _hats.FirstOrDefault(hat => hat.Id == hatId);
+        }
 
         internal List<Hat> GetAll()
         {
             return _hats;
-        }
-
-        internal void Add(Hat newHat)
-        {
-            newHat.Id = Guid.NewGuid();
-            _hats.Add(newHat);
         }
 
         internal IEnumerable<Hat> GetByStyle(HatStyle style)
@@ -48,9 +49,11 @@ namespace LinenAndBird.DataAccess
             return _hats.Where(hat => hat.Style == style);
         }
 
-        internal Hat GetById(Guid hatId)
+        internal void Add(Hat newHat)
         {
-            return _hats.FirstOrDefault(hat => hat.Id == hatId);
+            newHat.Id = Guid.NewGuid();
+
+            _hats.Add(newHat);
         }
     }
 }

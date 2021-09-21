@@ -1,7 +1,11 @@
 ﻿using LinenAndBird.DataAccess;
 using LinenAndBird.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinenAndBird.Controllers
 {
@@ -11,29 +15,27 @@ namespace LinenAndBird.Controllers
     {
         BirdRepository _birdRepository;
         HatRepository _hatRepository;
-        OrdersRepository _ordersRepository;
+        OrdersRepository _orderRepository;
 
         public OrdersController()
         {
             _birdRepository = new BirdRepository();
             _hatRepository = new HatRepository();
-            _ordersRepository = new OrdersRepository();
+            _orderRepository = new OrdersRepository();
         }
+
+
         [HttpPost]
-        public IActionResult CreateOrder(CreateOrder command)
+        public IActionResult CreateOrder(CreateOrderCommand command)
         {
-            var birdToOrder = _birdRepository.GetById(command.BirdId);
             var hatToOrder = _hatRepository.GetById(command.HatId);
+            var birdToOrder = _birdRepository.GetById(command.BirdId);
 
             if (hatToOrder == null)
-            {
-                return NotFound("There is no matching hat in the database");
-            }
+                return NotFound("There was no matching hat in the database.");
 
             if (birdToOrder == null)
-            {
-                return NotFound("There is no matching bird in the database");
-            }
+                return NotFound("There was no matching bird in the database");
 
             var order = new Order
             {
@@ -42,7 +44,7 @@ namespace LinenAndBird.Controllers
                 Price = command.Price
             };
 
-            _ordersRepository.Add(order);
+            _orderRepository.Add(order);
 
             return Created($"/api/orders/{order.Id}", order);
         }
