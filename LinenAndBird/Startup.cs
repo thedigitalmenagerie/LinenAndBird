@@ -27,6 +27,12 @@ namespace LinenAndBird
         public void ConfigureServices(IServiceCollection services)
         {
 
+            // registering a service
+            // services.AddTransient<IConfiguration>() -> create new at each ask
+            // services.AddScoped<IConfiguration>() -> create a new thing once per http request
+            services.AddSingleton<IConfiguration>(Configuration); // anytime someone asks for this give them the same copy forever
+            // similar to static properties and "more socially acceptable than statics"?
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
